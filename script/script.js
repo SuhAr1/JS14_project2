@@ -19,18 +19,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		function updateClock() {
 			const timer = getTimerRemaining();
-			const idInterval = setInterval(updateClock, 1000);
+			let idInterval;
 			if (getTimerRemaining().timeRemaining > 0) {
 				timerHours.textContent = ((timer.hours < 10) ? '0' + timer.hours : timer.hours);
 				timerMinutes.textContent = ((timer.minutes < 10) ? '0' + timer.minutes : timer.minutes);
 				timerSeconds.textContent = ((timer.seconds < 10) ? '0' + timer.seconds : timer.seconds);
 			} else {
 				clearInterval(idInterval);
-				timerHours.textContent = '0';
-				timerMinutes.textContent = '0';
-				timerSeconds.textContent = '0';
+				timerHours.textContent = '00';
+				timerMinutes.textContent = '00';
+				timerSeconds.textContent = '00';
 			}
-
+			setInterval(updateClock, 1000);
 		}
 		updateClock();
 	}
