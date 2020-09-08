@@ -59,10 +59,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		closeBtn.addEventListener('click', handlerMenu);
 
 		menuItems.forEach(elem => elem.addEventListener('click', handlerMenu));
-
-
-
-
 	};
 
 	toggleMenu();
