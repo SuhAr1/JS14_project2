@@ -35,4 +35,88 @@ window.addEventListener('DOMContentLoaded', () => {
 	}
 
 	countTimer('09 september 2020');
+
+	// Меню
+	const toggleMenu = () => {
+
+		const btnMenu = document.querySelector('.menu'),
+			menu = document.querySelector('menu'),
+			closeBtn = document.querySelector('.close-btn'),
+			menuItems = menu.querySelectorAll('ul>li');
+
+		const handlerMenu = () => {
+
+			menu.classList.toggle('active-menu');
+
+			// if (!menu.style.transform || menu.style.transform === `translate(-100%)`) {
+			// 	menu.style.transform = `translate(0)`;
+			// } else {
+			// 	menu.style.transform = `translate(-100%)`;
+			// }
+		};
+
+		btnMenu.addEventListener('click', handlerMenu);
+		closeBtn.addEventListener('click', handlerMenu);
+
+		menuItems.forEach(elem => elem.addEventListener('click', handlerMenu));
+
+
+
+
+	};
+
+	toggleMenu();
+
+	// popup
+
+	const togglePopUp = () => {
+		const popup = document.querySelector('.popup'),
+			popupBtn = document.querySelectorAll('.popup-btn'),
+			popUpClose = document.querySelector('.popup-close'),
+			popupContent = document.querySelector('.popup-content');
+
+
+		// animation
+
+		const modalAnimation = () => {
+			let count = 0;
+			popupContent.style.top = 0;
+			function newAnimation() {
+				popupContent.style.top = count + `%`;
+				count++;
+				if (count <= 38) {
+					requestAnimationFrame(newAnimation);
+				}
+			}
+			newAnimation();
+		};
+
+		popupBtn.forEach(elem => {
+			elem.addEventListener('click', () => {
+				popup.style.display = 'block';
+				if (window.screen.availWidth > 768) modalAnimation();
+			});
+		});
+
+		popUpClose.addEventListener('click', () => {
+			popup.style.display = 'none';
+		});
+
+
+	};
+
+	togglePopUp();
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
