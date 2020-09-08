@@ -19,8 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		function updateClock() {
 			const timer = getTimerRemaining();
-			let idInterval;
-			if (getTimerRemaining().timeRemaining > 0) {
+			if (timer.timeRemaining > 0) {
 				timerHours.textContent = ((timer.hours < 10) ? '0' + timer.hours : timer.hours);
 				timerMinutes.textContent = ((timer.minutes < 10) ? '0' + timer.minutes : timer.minutes);
 				timerSeconds.textContent = ((timer.seconds < 10) ? '0' + timer.seconds : timer.seconds);
@@ -30,8 +29,8 @@ window.addEventListener('DOMContentLoaded', () => {
 				timerMinutes.textContent = '00';
 				timerSeconds.textContent = '00';
 			}
-			setInterval(updateClock, 1000);
 		}
+		const idInterval = setInterval(updateClock, 1000);
 		updateClock();
 	}
 
