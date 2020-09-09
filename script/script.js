@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			if (target.closest('.close-btn')) {
 				handlerMenu();
 			}
-			if (target.closest('.ul>li')) {
+			if (target.closest('ul>li')) {
 				handlerMenu();
 			}
 		});
