@@ -48,8 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			menu.classList.toggle('active-menu');
 		};
 
-		const wrapParent = document.body;
-		wrapParent.addEventListener('click', event => {
+		document.body.addEventListener('click', event => {
 			const target = event.target;
 			if (target.closest('.menu')) {
 				handlerMenu();
@@ -135,8 +134,6 @@ window.addEventListener('DOMContentLoaded', () => {
 			let target = event.target;
 			target = target.closest('.service-header-tab');	// Проверяет селектор, а если не находит выводит null
 
-			console.log(target);
-
 			if (target) {
 				tab.forEach((item, i) => {
 					if (item === target) {
@@ -150,3 +147,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	tabs();
 
 });
+
+
