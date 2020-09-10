@@ -56,7 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			if (target.closest('.close-btn')) {
 				handlerMenu();
 			}
-			if (target.closest('ul>li')) {
+			if (target.closest('menu>ul>li')) {
 				handlerMenu();
 			}
 		});
@@ -148,8 +148,21 @@ window.addEventListener('DOMContentLoaded', () => {
 	// slider
 
 	const slider = () => {
-		const slide = document.querySelectorAll('.portfolio-item'),
-			btn = document.querySelectorAll('.portfolio-btn'),
+		const slide = document.querySelectorAll('.portfolio-item');
+
+		const newDot = () => {
+			const ulDots = document.querySelector('.portfolio-dots');
+			for (let i = 0; i < slide.length; i++) {
+				ulDots.insertAdjacentHTML('beforeend', '<li class="dot"></li>');
+				if (i === 0) {
+					document.querySelector('.dot').classList.add('dot-active');
+				}
+			}
+		};
+
+		newDot();
+
+		const btn = document.querySelectorAll('.portfolio-btn'),
 			dot = document.querySelectorAll('.dot'),
 			slider = document.querySelector('.portfolio-content');
 
