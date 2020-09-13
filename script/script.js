@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	countTimer('11 september 2020');
 
-	// Меню
+	// Menu
 	const toggleMenu = () => {
 
 		// const btnMenu = document.querySelector('.menu');
@@ -249,6 +249,36 @@ window.addEventListener('DOMContentLoaded', () => {
 	};
 
 	slider();
+
+	// change image
+
+	const changeImageTeam = () => {
+		const imageTeam = document.querySelectorAll('.command__photo');
+		imageTeam.forEach(item => {
+			item.addEventListener('mouseenter', () => {
+				item.dataset.oneImg = item.src;
+				item.src = item.dataset.img;
+			});
+			item.addEventListener('mouseout', () => {
+				item.dataset.twoImg = item.src;
+				item.src = item.dataset.oneImg;
+			});
+		});
+	};
+
+	changeImageTeam();
+
+	// validation
+
+	const inputCostValidate = () => {
+		document.querySelector(`.calc-block`).querySelectorAll(`input`).forEach(item => {
+			item.addEventListener('input', () => {
+				item.value = item.value.replace(/\D/, "");
+			});
+		});
+	};
+
+	inputCostValidate();
 
 
 });
