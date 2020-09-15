@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		updateClock();
 	}
 
-	countTimer('11 september 2020');
+	countTimer('16 september 2020');
 
 	// Menu
 	const toggleMenu = () => {
@@ -280,7 +280,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	inputCostValidate();
 
-
 	// calculator
 
 	const calc = (price = 100) => {
@@ -342,6 +341,84 @@ window.addEventListener('DOMContentLoaded', () => {
 	};
 
 	calc(100);
+
+
+	// send-ajax-form
+
+	const sendForm = () => {
+		// написали сообщения
+		const errorMessage = 'Что то пошло не так...',
+			loadMessage = 'Загрузка...',
+			successMessage = 'Спасибо! Мы скоро с вами свяжемся';
+
+		// получили нашу форму
+		const form = document.getElementById('form1');
+
+		// создали элемент, который будем добавлять на страницу
+		const statusMessage = document.createElement('div');
+		// добавили элементу стили
+		statusMessage.style.cssText = 'font-size: 2rem;';
+
+		// прописали обработчик события submit
+		form.addEventListener('submit', event => {
+			// отменили стандартное поведение браузера (чтобы не перезагружалась)
+			event.preventDefault();
+			// добавили элемент который создали - ('div') на страницу (пока в нем нет никакого сообщения)
+			form.appendChild(statusMessage);
+			statusMessage.textContent = loadMessage;
+			// создали объект форм дата, который считывает все данные с нашей формы(все что имеет атрибут name)
+			// и сохраняет в объекте FormData
+			const formData = new FormData(form);
+			const body = {};
+			// for (const val of formData.entries()) {
+			// 	body[val[0]] = val[1];
+			// }
+			// получаем все данные одним из способов из нашего объекта FormData
+			// записываем в переменную body (был пустой объект)
+			formData.forEach((val, key) => {
+				body[key] = val;
+			});
+			postData(body, () => {
+				// пишем сообщение пользователю, что все отлично
+				statusMessage.textContent = successMessage;
+			}, error => {
+				// если ошибка выводим, что что то не так
+				statusMessage.textContent = errorMessage;
+				console.error(error);
+			});
+		});
+
+		const postData = (body, outputData, errorData) => {
+			// создали объект request
+			const request = new XMLHttpRequest();
+			// повесили прослушку события "readystatechange" (возникает когда меняется статус readyState)
+			// после того как 1 раз любое событие (из 0 в 1) срабатывает readystatechange и
+			// добавляется сообщение (loadMessage)
+			request.addEventListener('readystatechange', () => {
+				// проверяем статус на = 4 (если он еще не 4 то просто выходим)
+				if (request.readyState !== 4) {
+					return;
+				}
+				//  проверяем статус на 200
+				if (request.status === 200) {
+					outputData();
+				} else {
+					errorData(request.status);
+				}
+
+			});
+			// настроили сам запрос (метод и файл php)
+			request.open('POST', './server.php');
+			// добавили заголовки в json или в form-data
+			request.setRequestHeader('Content-Type', 'application/json'); // 'multipart/form-data'
+			// в зависимости от требования сервера переводим в json строку или formData
+			request.send(JSON.stringify(body)); // request.send(formData)
+		};
+
+
+	};
+
+	sendForm();
 
 });
 
