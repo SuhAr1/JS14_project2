@@ -101,7 +101,6 @@ window.addEventListener('DOMContentLoaded', () => {
 				popUp.style.display = 'none';
 			} else {
 				target = target.closest('.popup-content');
-				console.log(target);
 				if (!target) {
 					popUp.style.display = 'none';
 				}
@@ -350,6 +349,12 @@ window.addEventListener('DOMContentLoaded', () => {
 			loadMessage = 'Загрузка...',
 			successMessage = 'Спасибо! Мы скоро с вами свяжемся';
 
+		const userName = document.getElementsByName('user_name'),
+			userEmail = document.getElementsByName('user_email'),
+			userPhone = document.getElementsByName('user_phone'),
+			userMessage = document.getElementsByName('user_message');
+
+
 		newForm(document.getElementById('form1')); // title form
 		newForm(document.getElementById('form2')); // contact form
 		newForm(document.getElementById('form3')); // modal
@@ -363,16 +368,21 @@ window.addEventListener('DOMContentLoaded', () => {
 				addEventListener('input', () => {
 					if (item.placeholder === 'Ваше имя' || item.placeholder === 'Ваше сообщение') {
 						item.value = item.value.replace(/[^А-Яа-я]/, '');
-					} else if (item.placeholder === 'Номер телефона') {
-						item.value = item.value.replace(/[^0-9\+]/, '');
+					} else if (item.placeholder === 'Номер телефона' || item.placeholder === 'Ваш номер телефона') {
+						item.value = item.value.replace(/[^0-9+]/, '');
+
+						const inputTel = document.querySelectorAll('.form-phone');
+
+						inputTel.pattern = /^\+?[78]([-()]*\d){10}$/;
 					}
 				});
 			});
 
 
+
+
 			form.addEventListener('submit', event => {
 				event.preventDefault();
-				form.style.color = '#fff';
 				form.appendChild(statusMessage);
 				statusMessage.textContent = loadMessage;
 
@@ -391,8 +401,6 @@ window.addEventListener('DOMContentLoaded', () => {
 					console.error(error);
 				});
 			});
-
-
 		}
 
 		const postData = (body, outputData, errorData) => {
@@ -403,10 +411,13 @@ window.addEventListener('DOMContentLoaded', () => {
 				}
 				if (request.status === 200) {
 					outputData();
+					userName.forEach(item => item.value = '');
+					userEmail.forEach(item => item.value = '');
+					userPhone.forEach(item => item.value = '');
+					userMessage.forEach(item => item.value = '');
 				} else {
 					errorData(request.status);
 				}
-
 			});
 			request.open('POST', './server.php');
 			request.setRequestHeader('Content-Type', 'application/json'); // 'multipart/form-data'
