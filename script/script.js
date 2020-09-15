@@ -364,22 +364,20 @@ window.addEventListener('DOMContentLoaded', () => {
 		statusMessage.style.cssText = 'font-size: 2rem;';
 
 		function newForm(form) {
-			form.querySelectorAll('input').forEach(item => {
-				addEventListener('input', () => {
-					if (item.placeholder === 'Ваше имя' || item.placeholder === 'Ваше сообщение') {
-						item.value = item.value.replace(/[^А-Яа-я]/, '');
-					} else if (item.placeholder === 'Номер телефона' || item.placeholder === 'Ваш номер телефона') {
-						item.value = item.value.replace(/[^0-9+]/, '');
+			let formInput = form.querySelectorAll('input');
 
-						const inputTel = document.querySelectorAll('.form-phone');
+			formInput.forEach(item => {
 
-						inputTel.pattern = /^\+?[78]([-()]*\d){10}$/;
+				item.addEventListener('input', (e) => {
+					if (e.target.name === 'user_name' || e.target.name === 'user_message') {
+						e.target.value = e.target.value.replace(/[^А-Яа-я]/, '');
+					} else if (e.target.name === 'user_phone') {
+						// e.target.pattern = /^\+?([78\d]){10}/gm;
+						e.target.pattern = "[+][0-9]{11}";
+						e.target.value = e.target.value.replace(/[^0-9+]/, '');
 					}
 				});
 			});
-
-
-
 
 			form.addEventListener('submit', event => {
 				event.preventDefault();
