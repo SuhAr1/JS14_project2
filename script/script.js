@@ -364,11 +364,10 @@ window.addEventListener('DOMContentLoaded', () => {
 		statusMessage.style.cssText = 'font-size: 2rem;';
 
 		function newForm(form) {
-			let formInput = form.querySelectorAll('input');
+			const formInput = form.querySelectorAll('input');
 
 			formInput.forEach(item => {
-
-				item.addEventListener('input', (e) => {
+				item.addEventListener('input', e => {
 					if (e.target.name === 'user_name' || e.target.name === 'user_message') {
 						e.target.value = e.target.value.replace(/[^А-Яа-я]/, '');
 					} else if (e.target.name === 'user_phone') {
@@ -376,6 +375,9 @@ window.addEventListener('DOMContentLoaded', () => {
 						e.target.pattern = "[+][0-9]{11}";
 						e.target.value = e.target.value.replace(/[^0-9+]/, '');
 					}
+					//  else if (e.target.name === 'user_email') {
+					// 	e.target.pattern = "([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})";
+					// }
 				});
 			});
 
@@ -392,36 +394,41 @@ window.addEventListener('DOMContentLoaded', () => {
 				formData.forEach((val, key) => {
 					body[key] = val;
 				});
-				postData(body, () => {
-					statusMessage.textContent = successMessage;
-				}, error => {
-					statusMessage.textContent = errorMessage;
-					console.error(error);
-				});
+
+				postData(body)
+					.then(() => {
+						statusMessage.textContent = successMessage;
+					})
+					.catch((error => {
+						statusMessage.textContent = errorMessage;
+						console.error(error);
+					})
+					);
+
 			});
 		}
 
-		const postData = (body, outputData, errorData) => {
+		const postData = body => new Promise((resolve, reject) => {
 			const request = new XMLHttpRequest();
 			request.addEventListener('readystatechange', () => {
 				if (request.readyState !== 4) {
 					return;
 				}
 				if (request.status === 200) {
-					outputData();
+					resolve();
 					userName.forEach(item => item.value = '');
 					userEmail.forEach(item => item.value = '');
 					userPhone.forEach(item => item.value = '');
 					userMessage.forEach(item => item.value = '');
 				} else {
-					errorData(request.status);
+					reject(request.status);
 				}
 			});
 			request.open('POST', './server.php');
-			request.setRequestHeader('Content-Type', 'application/json'); // 'multipart/form-data'
-			// в зависимости от требования сервера переводим в json строку или formData
-			request.send(JSON.stringify(body)); // request.send(formData)
-		};
+			request.setRequestHeader('Content-Type', 'application/json');
+			request.send(JSON.stringify(body));
+			return Promise;
+		});
 	};
 
 	sendForm();
@@ -429,3 +436,33 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+
+
+
+
+// !!!оставил временно!!! не ругать! :)
+
+
+
+// const postData = (body, outputData, errorData) => {
+// 	const request = new XMLHttpRequest();
+// 	request.addEventListener('readystatechange', () => {
+// 		if (request.readyState !== 4) {
+// 			return;
+// 		}
+// 		if (request.status === 200) {
+// 			outputData();
+// 			userName.forEach(item => item.value = '');
+// 			userEmail.forEach(item => item.value = '');
+// 			userPhone.forEach(item => item.value = '');
+// 			userMessage.forEach(item => item.value = '');
+// 		} else {
+// 			errorData(request.status);
+// 		}
+// 	});
+// 	request.open('POST', './server.php');
+// 	request.setRequestHeader('Content-Type', 'application/json'); // 'multipart/form-data'
+// 	// в зависимости от требования сервера переводим в json строку или formData
+// 	request.send(JSON.stringify(body)); // request.send(formData)
+// };
