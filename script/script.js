@@ -309,7 +309,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 			if (typeValue && squareValue) {
-				total = price * typeValue * squareValue * countValue * dayValue;
+				total = Math.ceil(price * typeValue * squareValue * countValue * dayValue);
 			} else {
 				total = 0;
 			}
