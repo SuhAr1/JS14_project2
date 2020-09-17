@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		updateClock();
 	}
 
-	countTimer('16 september 2020');
+	countTimer('17 september 2020');
 
 	// Menu
 	const toggleMenu = () => {
@@ -340,7 +340,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	};
 
 	calc(100);
-
 
 	// send-ajax-form
 
