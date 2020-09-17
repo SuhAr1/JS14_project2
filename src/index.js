@@ -1,5 +1,10 @@
 'use strict';
 
+import "@babel/polyfill";
+import 'nodelist-foreach-polyfill';
+import elementClosest from 'element-closest';
+elementClosest(window);
+
 import countTimer from './modules/countTimer';
 import toggleMenu from './modules/toggleMenu';
 import togglePopUp from './modules/togglePopUp';
@@ -11,7 +16,7 @@ import calc from './modules/calc';
 import sendForm from './modules/sendForm'
 
 // Timer
-countTimer('17 september 2020');
+countTimer('18 september 2020');
 
 // Menu
 toggleMenu();
